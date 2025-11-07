@@ -41,9 +41,9 @@ else
 fi
 
 # Get additional app here
-# bench get-app https://github.com/NextServ/custom_app
+bench get-app https://github.com/NextServ/aruga_acct.git
 
-# bench --site $SITE_NAME install-app custom_app
+bench --site $SITE_NAME install-app aruga_acct
 bench --site $SITE_NAME set-config developer_mode 1
 bench --site $SITE_NAME enable-scheduler
 bench --site $SITE_NAME clear-cache
