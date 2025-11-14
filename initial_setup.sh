@@ -58,13 +58,14 @@ sudo apt install -y nginx
 # }
 # EOF
 # Create config file - HTTP
+# Create config file - HTTP
 sudo tee /etc/nginx/sites-available/$PROJECT_NAME >/dev/null <<EOF
 server {
    listen 80;
-   server_name $HOSTNAME.local;
+   server_name $SITE_NAME;
 
    location / {
-       proxy_pass http://127.0.0.1:8000;
+       proxy_pass http://127.0.0.1:$BENCH_HTTP_PORT;
        proxy_set_header Host \$host;
        proxy_set_header X-Real-IP \$remote_addr;
        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
@@ -72,13 +73,9 @@ server {
    }
 }
 EOF
+
 # Enable the config
 sudo ln -sf /etc/nginx/sites-available/$PROJECT_NAME /etc/nginx/sites-enabled/
 
 # Test and restart Nginx
 sudo nginx -t && sudo systemctl restart nginx
-
-# Avahi daemon for external access
-sudo apt install avahi-daemon
-sudo systemctl enable avahi-daemon
-sudo systemctl start avahi-daemon
